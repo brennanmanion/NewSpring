@@ -6,7 +6,7 @@ import javax.ws.rs.core.Application;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ApplicationPath("/api/v1")
+@ApplicationPath("/api")
 public class RestEasyConf extends Application {
 
 }

@@ -4,7 +4,9 @@ import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -22,16 +24,16 @@ public class HibernateConf {
     @Autowired
     private Environment env;
 
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean lcemfb = new LocalContainerEntityManagerFactoryBean();
-        lcemfb.setJpaVendorAdapter(getJpaVendorAdapter());
-        lcemfb.setDataSource(dataSource());
-        lcemfb.setPersistenceUnitName("entityManagerFactory");
-        lcemfb.setPackagesToScan("com.mycompany.pojo");
-        lcemfb.setJpaProperties(hibernateProperties());
-        return lcemfb;
-    }
+//    @Bean
+//    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+//        LocalContainerEntityManagerFactoryBean lcemfb = new LocalContainerEntityManagerFactoryBean();
+//        lcemfb.setJpaVendorAdapter(getJpaVendorAdapter());
+//        lcemfb.setDataSource(dataSource());
+//        lcemfb.setPersistenceUnitName("entityManagerFactory");
+//        lcemfb.setPackagesToScan("com.mycompany.pojo");
+//        lcemfb.setJpaProperties(hibernateProperties());
+//        return lcemfb;
+//    }
 
     @Bean
     public JpaVendorAdapter getJpaVendorAdapter() {
@@ -50,10 +52,10 @@ public class HibernateConf {
         return dataSource;
     }
 
-    @Bean
-    public PlatformTransactionManager transactionManager() {
-        return new JpaTransactionManager(entityManagerFactory().getObject());
-    }
+//    @Bean
+//    public PlatformTransactionManager transactionManager() {
+//        return new JpaTransactionManager(entityManagerFactory().getObject());
+//    }
 
     private final Properties hibernateProperties() {
         Properties properties = new Properties();
@@ -61,4 +63,14 @@ public class HibernateConf {
         properties.put("hibernate.show_sql", env.getProperty("spring.jpa.show-sql"));
         return properties;
     }
+    
+    @Bean
+    public LocalSessionFactoryBean sessionFactory() {
+        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+        sessionFactory.setDataSource(dataSource());
+        sessionFactory.setPackagesToScan("com.mycompany.pojo");
+        sessionFactory.setHibernateProperties(hibernateProperties());
+
+        return sessionFactory;
+    }    
 }
