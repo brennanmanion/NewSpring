@@ -13,5 +13,24 @@
             <column name="lastModified" type="DATETIME"/>
         </createTable>        
     </changeSet>
+    
+	<changeSet author="brennan" id="2">
+		<comment>authentication</comment>
+		<addColumn tableName="users">
+			<column name="userName" type="varchar(255)"/>
+		</addColumn>
+	</changeSet>
+	<changeSet author="brennan" id="3">
+		<comment>authentication</comment>
+		<addColumn tableName="users">
+			<column name="password" type="varchar(255)"/>
+		</addColumn>
+	</changeSet>
+	<changeSet author="brennan" id="4">
+		<comment>authentication</comment>
+		<addColumn tableName="users">
+			<column name="isActive" type="bit"/>
+		</addColumn>
+	</changeSet>
                           
 </databaseChangeLog>
