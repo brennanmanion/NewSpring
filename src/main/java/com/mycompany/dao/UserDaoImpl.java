@@ -30,5 +30,17 @@ public class UserDaoImpl implements IUserDao{
 		
 		return users;		
 	}
+	
+	@Override
+	public User getUserByUsername(String userName) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<User> query = currentSession.createQuery("from User where userName = :userName", User.class);
+		query.setParameter("userName", userName);
+		
+		final User user = query.getSingleResult();					
+		
+		return user;
+	}
 
 }
